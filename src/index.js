@@ -1,6 +1,7 @@
 "use strict";
 
-import fpsCounter from "./components/fpsCounter";
+import FpsCounter from "./components/fpsCounter";
+import Pacman from "./components/pacman";
 
 import "./styles/index.less";
 
@@ -13,7 +14,10 @@ function clearScreen() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-const gameComponents = [new fpsCounter({ ctx, position: [20, 100] })];
+const gameComponents = [
+	new FpsCounter({ ctx, position: [20, 100] }),
+	new Pacman({ ctx, position: [100, 100] })
+];
 
 function gameLoop(timestamp = performance.now()) {
 	clearScreen();
