@@ -27,16 +27,20 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-				use: [
-					{
-						loader: "url-loader",
-						options: {
-							limit: 12000
-						}
-					}
-				]
+				test: /\.png$/,
+				loader: "url-loader?mimetype=image/png"
 			}
+			// {
+			// 	test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+			// 	use: [
+			// 		{
+			// 			loader: "url-loader",
+			// 			options: {
+			// 				limit: 12000
+			// 			}
+			// 		}
+			// 	]
+			// }
 		]
 	},
 
