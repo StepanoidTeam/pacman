@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(true);\n// imports\n\n\n// module\nexports.push([module.i, \"body {\\n  background-color: gray;\\n}\\n\", \"\", {\"version\":3,\"sources\":[\"/Users/volodymyrm/projects/pacman/src/styles/index.less\",\"/Users/volodymyrm/projects/pacman/src/styles/index.less\"],\"names\":[],\"mappings\":\"AAAA;EACI,uBAAA;CCCH\",\"file\":\"index.less\",\"sourcesContent\":[\"body{\\n    background-color: gray;\\n}\",\"body {\\n  background-color: gray;\\n}\\n\"],\"sourceRoot\":\"\"}]);\n\n// exports\n\n\n//# sourceURL=webpack:///./src/styles/index.less?./node_modules/css-loader??ref--4-1!./node_modules/less-loader/dist/cjs.js??ref--4-2");
+eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(true);\n// imports\n\n\n// module\nexports.push([module.i, \"body {\\n  height: 100vh;\\n  width: 100vw;\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n  margin: 0;\\n  padding: 0;\\n  background-color: gray;\\n}\\n#canvas {\\n  background-color: gainsboro;\\n  height: 720px;\\n  width: 1080px;\\n}\\n\", \"\", {\"version\":3,\"sources\":[\"/Users/volodymyrm/projects/pacman/src/styles/index.less\",\"/Users/volodymyrm/projects/pacman/src/styles/index.less\"],\"names\":[],\"mappings\":\"AAAA;EACE,cAAA;EACA,aAAA;EAEA,cAAA;EACA,oBAAA;EACA,wBAAA;EAEA,UAAA;EACA,WAAA;EAEA,uBAAA;CCFD;ADKD;EACE,4BAAA;EACA,cAAA;EACA,cAAA;CCHD\",\"file\":\"index.less\",\"sourcesContent\":[\"body {\\n  height: 100vh;\\n  width: 100vw;\\n\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n\\n  margin: 0;\\n  padding: 0;\\n\\n  background-color: gray;\\n}\\n\\n#canvas {\\n  background-color: gainsboro;\\n  height: 720px;\\n  width: 1080px;\\n}\\n\",\"body {\\n  height: 100vh;\\n  width: 100vw;\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n  margin: 0;\\n  padding: 0;\\n  background-color: gray;\\n}\\n#canvas {\\n  background-color: gainsboro;\\n  height: 720px;\\n  width: 1080px;\\n}\\n\"],\"sourceRoot\":\"\"}]);\n\n// exports\n\n\n//# sourceURL=webpack:///./src/styles/index.less?./node_modules/css-loader??ref--4-1!./node_modules/less-loader/dist/cjs.js??ref--4-2");
 
 /***/ }),
 
@@ -130,6 +130,18 @@ eval("\n/**\n * When source maps are enabled, `style-loader` uses a link element
 
 /***/ }),
 
+/***/ "./src/components/fpsCounter.js":
+/*!**************************************!*\
+  !*** ./src/components/fpsCounter.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return fpsCounter; });\nclass fpsCounter {\n\tconstructor({ ctx, position }) {\n\t\tthis.position = position;\n\t\tthis.prevStamp = null;\n\t\tthis.frameCount = 0;\n\t\tthis.prevFrameCount = 0;\n\n\t\tthis.ctx = ctx;\n\t\tthis.prevStamp = performance.now();\n\t}\n\t//todo: add enable/disable methods/gettersetters\n\n\tupdate(timestamp = performance.now()) {\n\t\tconst delta = timestamp - this.prevStamp;\n\t\tthis.frameCount++;\n\n\t\tif (delta > 1000) {\n\t\t\tthis.prevStamp = timestamp;\n\t\t\tthis.prevFrameCount = this.frameCount;\n\t\t\tthis.frameCount = 0;\n\t\t}\n\t}\n\tdraw() {\n\t\tthis.ctx.fillStyle = \"black\";\n\t\tthis.ctx.font = \"22px serif\";\n\t\tthis.ctx.fillText(this.prevFrameCount, ...this.position);\n\t}\n}\n\n\n//# sourceURL=webpack:///./src/components/fpsCounter.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -138,7 +150,7 @@ eval("\n/**\n * When source maps are enabled, `style-loader` uses a link element
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/index.less */ \"./src/styles/index.less\");\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_index_less__WEBPACK_IMPORTED_MODULE_0__);\n\n\n\n\ndocument.title = 'pacman is coming...';\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_fpsCounter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/fpsCounter */ \"./src/components/fpsCounter.js\");\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/index.less */ \"./src/styles/index.less\");\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_styles_index_less__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\n\n\ndocument.title = \"pacman is coming...\";\n\nvar canvas = document.querySelector(\"#canvas\");\nvar ctx = canvas.getContext(\"2d\");\n\nfunction clearScreen() {\n\tctx.clearRect(0, 0, canvas.width, canvas.height);\n}\n\nconst gameComponents = [new _components_fpsCounter__WEBPACK_IMPORTED_MODULE_0__[\"default\"]({ ctx, position: [20, 100] })];\n\nfunction gameLoop(timestamp = performance.now()) {\n\tclearScreen();\n\n\tctx.fillStyle = \"green\";\n\tctx.fillRect(10, 10, 100, 100);\n\n\tgameComponents.forEach(gc => gc.update(timestamp));\n\n\tgameComponents.forEach(gc => gc.draw());\n\n\trequestAnimationFrame(gameLoop);\n}\n\nrequestAnimationFrame(gameLoop);\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
