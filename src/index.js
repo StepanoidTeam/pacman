@@ -2,4 +2,4 @@
 
 import "./styles/index.less";
 
-document.title = 'pacman is coming...';
+document.title = "pacman is coming...";
