@@ -1,4 +1,4 @@
-export default class fpsCounter {
+export default class FpsCounter {
 	constructor({ ctx, position }) {
 		this.position = position;
 		this.prevStamp = null;
