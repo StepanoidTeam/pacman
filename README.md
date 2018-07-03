@@ -1,3 +1,3 @@
 # pacman
 
-todo: add url to git pages
+https://stepanoidteam.github.io/pacman/dist/
