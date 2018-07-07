@@ -1,8 +1,28 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
 	mode: "development",
 	entry: { game: "./src/index.js" },
+	plugins: [
+		new HtmlWebpackPlugin({
+			title: "Output Management",
+			template: "src/index.html"
+		})
+	],
 	output: {
-		filename: "[name].bundle.js"
+		filename: "[name].[chunkhash].js"
+	},
+	optimization: {
+		runtimeChunk: "single",
+		splitChunks: {
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: "vendors",
+					chunks: "all"
+				}
+			}
+		}
 	},
 	module: {
 		rules: [
