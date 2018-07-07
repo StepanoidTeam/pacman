@@ -1,11 +1,9 @@
-import image from "../images/Pacman.png";
-
 export default class Pacman {
-	constructor({ ctx, position }) {
+	constructor({ ctx, position, velocity = [1, 1], image }) {
 		this.ctx = ctx;
 		this.position = position;
 		this.size = [75, 75];
-		this.velocity = [1, 1];
+		this.velocity = velocity;
 
 		this.boundaries = [1080, 720];
 
