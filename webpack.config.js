@@ -10,7 +10,7 @@ module.exports = {
 		})
 	],
 	output: {
-		filename: "[name].[chunkhash].js"
+		filename: "[name].[hash].js"
 	},
 	optimization: {
 		runtimeChunk: "single",
@@ -26,6 +26,14 @@ module.exports = {
 	},
 	module: {
 		rules: [
+			{
+				test: /\.ts$/,
+				use: [
+					{
+						loader: "ts-loader"
+					}
+				]
+			},
 			{
 				test: /\.less$/,
 				use: [
@@ -63,10 +71,12 @@ module.exports = {
 			// }
 		]
 	},
-
+	resolve: {
+		extensions: [ '.tsx', '.ts', '.js' ]
+	},
 	devServer: {
-		//host: 'localhost', //default
-		//port: 8080, //default
+		host: 'localhost', //default
+		port: 8080, //default
 		//port: 9000
 		contentBase: "./dist",
 		compress: true

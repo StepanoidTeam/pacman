@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import GameLoop from "./gameLoop";
 import FpsCounter from "./components/fpsCounter";
 import Pacman from "./components/pacman";
+import tsTest from "./components/ts-test"
 
 import pacman from "./images/Pacman.png";
 import ghost1 from "./images/ghost-1.png";
@@ -36,3 +37,5 @@ const components = [
 ];
 
 new GameLoop({ ctx, components }).start();
+
+tsTest();
