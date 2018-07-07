@@ -1,7 +1,11 @@
-"use strict";
+import * as _ from "lodash";
 
+import GameLoop from "./gameLoop";
 import FpsCounter from "./components/fpsCounter";
 import Pacman from "./components/pacman";
+
+import pacman from "./images/Pacman.png";
+import ghost from "./images/ghost-1.png";
 
 import "./styles/index.less";
 
@@ -10,26 +14,24 @@ document.title = "pacman is coming...";
 var canvas = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
 
-function clearScreen() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+function batch(gcClass, count, getArgs) {
+	return new Array(count).fill(null).map(() => new gcClass(getArgs()));
 }
 
-const gameComponents = [
-	new FpsCounter({ ctx, position: [20, 100] }),
-	new Pacman({ ctx, position: [100, 100] })
+const components = [
+	//new Pacman({ ctx, position: [100, 100] }),
+
+	...batch(Pacman, 100, () => ({
+		ctx,
+		position: [_.random(canvas.width - 100), _.random(canvas.height - 100)],
+		velocity: [1 - 2 * _.random(1), 1 - 2 * _.random(1)],
+		image: _.sample([pacman, ghost])
+	})),
+
+	new FpsCounter({
+		ctx,
+		position: [40, 40]
+	})
 ];
 
-function gameLoop(timestamp = performance.now()) {
-	clearScreen();
-
-	ctx.fillStyle = "green";
-	ctx.fillRect(10, 10, 100, 100);
-
-	gameComponents.forEach(gc => gc.update(timestamp));
-
-	gameComponents.forEach(gc => gc.draw());
-
-	requestAnimationFrame(gameLoop);
-}
-
-requestAnimationFrame(gameLoop);
+new GameLoop({ ctx, components }).start();
