@@ -4,8 +4,8 @@ export default class Pacman {
 	constructor({ ctx, position }) {
 		this.ctx = ctx;
 		this.position = position;
-		this.size = [150, 150];
-		this.velocity = [10, 10];
+		this.size = [75, 75];
+		this.velocity = [1, 1];
 
 		this.boundaries = [1080, 720];
 
