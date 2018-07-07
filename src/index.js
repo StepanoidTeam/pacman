@@ -5,7 +5,8 @@ import FpsCounter from "./components/fpsCounter";
 import Pacman from "./components/pacman";
 
 import pacman from "./images/Pacman.png";
-import ghost from "./images/ghost-1.png";
+import ghost1 from "./images/ghost-1.png";
+import ghost2 from "./images/ghost-2.png";
 
 import "./styles/index.less";
 
@@ -25,7 +26,7 @@ const components = [
 		ctx,
 		position: [_.random(canvas.width - 100), _.random(canvas.height - 100)],
 		velocity: [1 - 2 * _.random(1), 1 - 2 * _.random(1)],
-		image: _.sample([pacman, ghost])
+		image: _.sample([pacman, ghost1, ghost2])
 	})),
 
 	new FpsCounter({
