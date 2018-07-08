@@ -1,9 +1,11 @@
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
 	mode: "development",
 	entry: { game: "./src/index.ts" },
 	plugins: [
+		new CleanWebpackPlugin(["dist/*"]),
 		new HtmlWebpackPlugin({
 			title: "pacman - index",
 			template: "src/index.html"
