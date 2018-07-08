@@ -1,51 +1,37 @@
-import { Point } from "./types";
+import { Point, IComponent } from "./types";
 
-type Params = {
-  ctx: CanvasRenderingContext2D;
-  position: Point;
-  size: Point;
-  velocity: Point;
-  boundaries: Point;
-};
-
-export default class Pacman {
+type Props = {
   ctx: CanvasRenderingContext2D;
   position: Point;
   size: Point;
   velocity: Point;
   boundaries: Point;
   img: HTMLImageElement;
+  image: string;
+};
 
-  constructor({ ctx, position, velocity = [1, 1], image }) {
-    this.ctx = ctx;
-    this.position = position;
-    this.size = [75, 75];
-    this.velocity = velocity as Point;
-
-    this.boundaries = [1080, 720];
-
-    this.img = new Image();
-    this.img.src = image;
+export default class Pacman implements IComponent {
+  constructor(public props: Props) {
+    this.props.img = new Image();
+    this.props.img.src = this.props.image;
   }
 
   update() {
-    this.position = this.position.map((x, i) => {
-      if (x > this.boundaries[i] - this.size[i] || x < 0) {
-        this.velocity[i] *= -1;
+    const { boundaries, size, velocity } = this.props;
+
+    this.props.position = this.props.position.map((x, i) => {
+      if (x > boundaries[i] - size[i] || x < 0) {
+        velocity[i] *= -1;
       }
 
-      return x + this.velocity[i];
+      return x + velocity[i];
     }) as Point;
   }
 
   draw() {
+    const { ctx, img, position, size = [75, 75] } = this.props;
+
     //if (this.isLoaded)
-    this.ctx.drawImage(
-      this.img,
-      this.position[0],
-      this.position[1],
-      this.size[0],
-      this.size[1]
-    );
+    ctx.drawImage(img, position[0], position[1], size[0], size[1]);
   }
 }
