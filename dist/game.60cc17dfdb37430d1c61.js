@@ -11,27 +11,27 @@ eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-
 
 /***/ }),
 
-/***/ "./src/components/fpsCounter.js":
+/***/ "./src/components/fpsCounter.ts":
 /*!**************************************!*\
-  !*** ./src/components/fpsCounter.js ***!
+  !*** ./src/components/fpsCounter.ts ***!
   \**************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return FpsCounter; });\nclass FpsCounter {\n\tconstructor({ ctx, position }) {\n\t\tthis.position = position;\n\t\tthis.prevStamp = null;\n\t\tthis.frameCount = 0;\n\t\tthis.prevFrameCount = 0;\n\n\t\tthis.ctx = ctx;\n\t\tthis.prevStamp = performance.now();\n\t}\n\t//todo: add enable/disable methods/gettersetters\n\n\tupdate(timestamp = performance.now()) {\n\t\tconst delta = timestamp - this.prevStamp;\n\t\tthis.frameCount++;\n\n\t\tif (delta > 1000) {\n\t\t\tthis.prevStamp = timestamp;\n\t\t\tthis.prevFrameCount = this.frameCount;\n\t\t\tthis.frameCount = 0;\n\t\t}\n\t}\n\tdraw() {\n\t\tthis.ctx.fillStyle = \"black\";\n\t\tthis.ctx.font = \"22px serif\";\n\t\tthis.ctx.fillText(this.prevFrameCount, ...this.position);\n\t}\n}\n\n\n//# sourceURL=webpack:///./src/components/fpsCounter.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return FpsCounter; });\nclass FpsCounter {\n    constructor({ ctx, position }) {\n        this.position = position;\n        this.prevStamp = null;\n        this.frameCount = 0;\n        this.prevFrameCount = 0;\n        this.ctx = ctx;\n        this.prevStamp = performance.now();\n    }\n    //todo: add enable/disable methods/gettersetters\n    update(timestamp = performance.now()) {\n        const delta = timestamp - this.prevStamp;\n        this.frameCount++;\n        if (delta > 1000) {\n            this.prevStamp = timestamp;\n            this.prevFrameCount = this.frameCount;\n            this.frameCount = 0;\n        }\n    }\n    draw() {\n        this.ctx.fillStyle = \"black\";\n        this.ctx.font = \"22px serif\";\n        this.ctx.fillText(this.prevFrameCount.toString(), this.position[0], this.position[1]);\n    }\n}\n\n\n//# sourceURL=webpack:///./src/components/fpsCounter.ts?");
 
 /***/ }),
 
-/***/ "./src/components/pacman.js":
+/***/ "./src/components/pacman.ts":
 /*!**********************************!*\
-  !*** ./src/components/pacman.js ***!
+  !*** ./src/components/pacman.ts ***!
   \**********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Pacman; });\nclass Pacman {\n\tconstructor({ ctx, position, velocity = [1, 1], image }) {\n\t\tthis.ctx = ctx;\n\t\tthis.position = position;\n\t\tthis.size = [75, 75];\n\t\tthis.velocity = velocity;\n\n\t\tthis.boundaries = [1080, 720];\n\n\t\tthis.img = new Image();\n\t\tthis.img.src = image;\n\t}\n\n\tupdate() {\n\t\tthis.position = this.position.map((x, i) => {\n\t\t\tif (x > this.boundaries[i] - this.size[i] || x < 0) {\n\t\t\t\tthis.velocity[i] *= -1;\n\t\t\t}\n\n\t\t\treturn x + this.velocity[i];\n\t\t});\n\t}\n\n\tdraw() {\n\t\t//if (this.isLoaded)\n\t\tthis.ctx.drawImage(this.img, ...this.position, ...this.size);\n\t}\n}\n\n\n//# sourceURL=webpack:///./src/components/pacman.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Pacman; });\nclass Pacman {\n    constructor({ ctx, position, velocity = [1, 1], image }) {\n        this.ctx = ctx;\n        this.position = position;\n        this.size = [75, 75];\n        this.velocity = velocity;\n        this.boundaries = [1080, 720];\n        this.img = new Image();\n        this.img.src = image;\n    }\n    update() {\n        this.position = this.position.map((x, i) => {\n            if (x > this.boundaries[i] - this.size[i] || x < 0) {\n                this.velocity[i] *= -1;\n            }\n            return x + this.velocity[i];\n        });\n    }\n    draw() {\n        //if (this.isLoaded)\n        this.ctx.drawImage(this.img, this.position[0], this.position[1], this.size[0], this.size[1]);\n    }\n}\n\n\n//# sourceURL=webpack:///./src/components/pacman.ts?");
 
 /***/ }),
 
@@ -47,15 +47,15 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
-/***/ "./src/gameLoop.js":
+/***/ "./src/gameLoop.ts":
 /*!*************************!*\
-  !*** ./src/gameLoop.js ***!
+  !*** ./src/gameLoop.ts ***!
   \*************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return GameLoop; });\nclass GameLoop {\n\tconstructor({ ctx, components }) {\n\t\tthis.components = components || [];\n\t\tthis.ctx = ctx;\n\n\t\tthis.start();\n\t}\n\n\tclearScreen() {\n\t\tthis.ctx.clearRect(0, 0, canvas.width, canvas.height);\n\t}\n\n\tdraw() {\n\t\tthis.clearScreen();\n\t\tthis.components.forEach(c => c.draw());\n\t}\n\n\tupdate(timestamp) {\n\t\tthis.components.forEach(c => c.update(timestamp));\n\t}\n\n\tgameLoop(timestamp = performance.now()) {\n\t\tthis.draw();\n\t\tthis.update(timestamp);\n\t\trequestAnimationFrame(timestamp => this.gameLoop(timestamp));\n\t}\n\n\tstart() {\n\t\trequestAnimationFrame(timestamp => this.gameLoop(timestamp));\n\t}\n\n\tstop() {\n\t\t//?\n\t}\n}\n\n\n//# sourceURL=webpack:///./src/gameLoop.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return GameLoop; });\nclass GameLoop {\n    constructor({ components }) {\n        this.components = components || [];\n        this.start();\n    }\n    draw() {\n        this.components.forEach(c => c.draw());\n    }\n    update(timestamp) {\n        this.components.forEach(c => c.update(timestamp));\n    }\n    gameLoop(timestamp = performance.now()) {\n        this.draw();\n        this.update(timestamp);\n        requestAnimationFrame(timestamp => this.gameLoop(timestamp));\n    }\n    start() {\n        requestAnimationFrame(timestamp => this.gameLoop(timestamp));\n    }\n    stop() {\n        //todo: impl stop?\n    }\n}\n\n\n//# sourceURL=webpack:///./src/gameLoop.ts?");
 
 /***/ }),
 
@@ -92,15 +92,15 @@ eval("module.exports = \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAACaC
 
 /***/ }),
 
-/***/ "./src/index.js":
+/***/ "./src/index.ts":
 /*!**********************!*\
-  !*** ./src/index.js ***!
+  !*** ./src/index.ts ***!
   \**********************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _gameLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameLoop */ \"./src/gameLoop.js\");\n/* harmony import */ var _components_fpsCounter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/fpsCounter */ \"./src/components/fpsCounter.js\");\n/* harmony import */ var _components_pacman__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/pacman */ \"./src/components/pacman.js\");\n/* harmony import */ var _components_ts_test__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/ts-test */ \"./src/components/ts-test.ts\");\n/* harmony import */ var _images_Pacman_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/Pacman.png */ \"./src/images/Pacman.png\");\n/* harmony import */ var _images_Pacman_png__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_images_Pacman_png__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./images/ghost-1.png */ \"./src/images/ghost-1.png\");\n/* harmony import */ var _images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var _images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./images/ghost-2.png */ \"./src/images/ghost-2.png\");\n/* harmony import */ var _images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7__);\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles/index.less */ \"./src/styles/index.less\");\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_index_less__WEBPACK_IMPORTED_MODULE_8__);\n\n\n\n\n\n\n\n\n\n\n\n\n\ndocument.title = \"pacman is coming...\";\n\nvar canvas = document.querySelector(\"#canvas\");\nvar ctx = canvas.getContext(\"2d\");\n\nfunction batch(gcClass, count, getArgs) {\n\treturn new Array(count).fill(null).map(() => new gcClass(getArgs()));\n}\n\nconst components = [\n\t//new Pacman({ ctx, position: [100, 100] }),\n\n\t...batch(_components_pacman__WEBPACK_IMPORTED_MODULE_3__[\"default\"], 100, () => ({\n\t\tctx,\n\t\tposition: [lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](canvas.width - 100), lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](canvas.height - 100)],\n\t\tvelocity: [1 - 2 * lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](1), 1 - 2 * lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](1)],\n\t\timage: lodash__WEBPACK_IMPORTED_MODULE_0__[\"sample\"]([_images_Pacman_png__WEBPACK_IMPORTED_MODULE_5___default.a, _images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6___default.a, _images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7___default.a])\n\t})),\n\n\tnew _components_fpsCounter__WEBPACK_IMPORTED_MODULE_2__[\"default\"]({\n\t\tctx,\n\t\tposition: [40, 40]\n\t})\n];\n\nnew _gameLoop__WEBPACK_IMPORTED_MODULE_1__[\"default\"]({ ctx, components }).start();\n\nObject(_components_ts_test__WEBPACK_IMPORTED_MODULE_4__[\"default\"])();\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _gameLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameLoop */ \"./src/gameLoop.ts\");\n/* harmony import */ var _components_fpsCounter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/fpsCounter */ \"./src/components/fpsCounter.ts\");\n/* harmony import */ var _components_pacman__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/pacman */ \"./src/components/pacman.ts\");\n/* harmony import */ var _components_ts_test__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/ts-test */ \"./src/components/ts-test.ts\");\n/* harmony import */ var _images_Pacman_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./images/Pacman.png */ \"./src/images/Pacman.png\");\n/* harmony import */ var _images_Pacman_png__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_images_Pacman_png__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./images/ghost-1.png */ \"./src/images/ghost-1.png\");\n/* harmony import */ var _images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var _images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./images/ghost-2.png */ \"./src/images/ghost-2.png\");\n/* harmony import */ var _images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7__);\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles/index.less */ \"./src/styles/index.less\");\n/* harmony import */ var _styles_index_less__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_index_less__WEBPACK_IMPORTED_MODULE_8__);\n/// <reference path='./index.d.ts'/>\n\n\n\n\n\n\n\n\n\ndocument.title = \"pacman is coming...\";\nvar canvas = document.querySelector(\"#canvas\");\nvar ctx = canvas.getContext(\"2d\");\nfunction batch(gcClass, count, getArgs) {\n    return new Array(count).fill(null).map(() => new gcClass(getArgs()));\n}\nconst components = [\n    //new Pacman({ ctx, position: [100, 100] }),\n    ...batch(_components_pacman__WEBPACK_IMPORTED_MODULE_3__[\"default\"], 100, () => ({\n        ctx,\n        position: [lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](canvas.width - 100), lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](canvas.height - 100)],\n        velocity: [1 - 2 * lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](1), 1 - 2 * lodash__WEBPACK_IMPORTED_MODULE_0__[\"random\"](1)],\n        image: lodash__WEBPACK_IMPORTED_MODULE_0__[\"sample\"]([_images_Pacman_png__WEBPACK_IMPORTED_MODULE_5___default.a, _images_ghost_1_png__WEBPACK_IMPORTED_MODULE_6___default.a, _images_ghost_2_png__WEBPACK_IMPORTED_MODULE_7___default.a])\n    })),\n    new _components_fpsCounter__WEBPACK_IMPORTED_MODULE_2__[\"default\"]({\n        ctx,\n        position: [40, 40]\n    })\n];\nnew _gameLoop__WEBPACK_IMPORTED_MODULE_1__[\"default\"]({ components }).start();\nObject(_components_ts_test__WEBPACK_IMPORTED_MODULE_4__[\"default\"])();\n\n\n//# sourceURL=webpack:///./src/index.ts?");
 
 /***/ }),
 
@@ -115,4 +115,4 @@ eval("\nvar content = __webpack_require__(/*! !../../node_modules/css-loader??re
 
 /***/ })
 
-},[["./src/index.js","runtime","vendors"]]]);
+},[["./src/index.ts","runtime","vendors"]]]);
