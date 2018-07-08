@@ -2,10 +2,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
 	mode: "development",
-	entry: { game: "./src/index.js" },
+	entry: { game: "./src/index.ts" },
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: "Output Management",
+			title: "pacman - index",
 			template: "src/index.html"
 		})
 	],
@@ -72,12 +72,11 @@ module.exports = {
 		]
 	},
 	resolve: {
-		extensions: [ '.tsx', '.ts', '.js' ]
+		extensions: [".tsx", ".ts", ".js"]
 	},
 	devServer: {
-		host: 'localhost', //default
+		host: "localhost", //default
 		port: 8080, //default
-		//port: 9000
 		contentBase: "./dist",
 		compress: true
 		//hot: true
