@@ -1,19 +1,14 @@
 import { Point, IComponent } from "./types";
+import Sprite, { Props as SpriteProps } from "./sprite";
 
-type Props = {
-  ctx: CanvasRenderingContext2D;
-  position: Point;
-  size: Point;
+type Props = SpriteProps & {
   velocity: Point;
   boundaries: Point;
-  img: HTMLImageElement;
-  image: string;
 };
 
-export default class Pacman implements IComponent {
+export default class Pacman extends Sprite implements IComponent {
   constructor(public props: Props) {
-    this.props.img = new Image();
-    this.props.img.src = this.props.image;
+    super(props);
   }
 
   update() {
@@ -26,12 +21,5 @@ export default class Pacman implements IComponent {
 
       return x + velocity[i];
     }) as Point;
-  }
-
-  draw() {
-    const { ctx, img, position, size = [75, 75] } = this.props;
-
-    //if (this.isLoaded)
-    ctx.drawImage(img, position[0], position[1], size[0], size[1]);
   }
 }
