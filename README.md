@@ -1,3 +1,3 @@
 # pacman
 
-https://stepanoidteam.github.io/pacman/dist/
+https://stepanoidteam.github.io/pacman/dist/index.html
