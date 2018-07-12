@@ -15,8 +15,8 @@ export default class GameLoop {
   }
 
   gameLoop(timestamp = performance.now()) {
-    this.draw();
     this.update(timestamp);
+    this.draw();
     requestAnimationFrame(timestamp => this.gameLoop(timestamp));
   }
 
