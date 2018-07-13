@@ -1,27 +1,27 @@
 import { Point, IDraw, IPosition, IUpdate } from "./types";
+import { tileSize } from "./config";
 
 export type Props = {
   ctx: CanvasRenderingContext2D;
   position: Point;
   size: Point;
-
-  img: HTMLImageElement;
   image: string;
 };
 
 export default class Sprite implements IDraw, IUpdate, IPosition {
+  img: HTMLImageElement = new Image();
+
   constructor(public props: Props) {
-    this.props.img = new Image();
-    this.props.img.src = this.props.image;
+    this.img.src = this.props.image;
   }
 
   draw() {
-    const { ctx, img, position, size = [75, 75] } = this.props;
+    const { ctx, position, size = tileSize } = this.props;
 
     //debug
     //ctx.fillRect(position[0], position[1], size[0], size[1]);
 
-    ctx.drawImage(img, position[0], position[1], size[0], size[1]);
+    ctx.drawImage(this.img, position[0], position[1], size[0], size[1]);
   }
   update(timestamp: number) {}
 }
