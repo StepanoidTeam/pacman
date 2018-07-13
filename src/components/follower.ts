@@ -1,38 +1,15 @@
 import { sortBy, head, random } from "lodash";
 
-import { Point, IComponent } from "./types";
+import { Point, IComponent, IPosition } from "./types";
+import { distance, normalize, add, sub } from "./vectors";
 import Sprite, { Props as SpriteProps } from "./sprite";
-import Pacman from "./pacman";
 
 type Props = SpriteProps & {
   velocity: Point;
-  pacmans: Array<Pacman>;
+  targets: Array<IPosition>;
 };
 
-function distance(pt1: Point, pt2: Point): number {
-  return Math.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2);
-}
-
-function add(pt1: Point, pt2: Point): Point {
-  return [pt1[0] + pt2[0], pt1[1] + pt2[1]];
-}
-
-function sub(pt1: Point, pt2: Point): Point {
-  return add(pt1, scalar(pt2, -1));
-}
-
-function scalar(pt: Point, value: number): Point {
-  return [pt[0] * value, pt[1] * value];
-}
-
-function normalize(pt: Point): Point {
-  const zero: Point = [0, 0];
-  const length = distance(zero, pt);
-
-  return scalar(pt, 1 / length);
-}
-
-export default class Ghost extends Sprite implements IComponent {
+export default class Folllower extends Sprite implements IComponent {
   closest: Point;
 
   constructor(public props: Props) {
@@ -40,18 +17,16 @@ export default class Ghost extends Sprite implements IComponent {
   }
 
   update() {
-    const { velocity, pacmans, position } = this.props;
+    const { velocity, targets, position } = this.props;
 
-    const withDist = pacmans.map(p => ({
+    const withDist = targets.map(p => ({
       position: p.props.position,
       distance: distance(p.props.position, position)
     }));
 
-    const targets = sortBy(pacmans.map(p => p.props.position), pos =>
-      distance(position, pos)
+    this.closest = head(
+      sortBy(targets.map(p => p.props.position), pos => distance(position, pos))
     );
-
-    this.closest = head(targets);
 
     this.props.velocity = normalize(sub(this.closest, position));
 

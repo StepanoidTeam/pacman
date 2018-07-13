@@ -13,7 +13,7 @@ import Pacman from "./components/pacman";
 import { Point, IComponent } from "./components/types";
 
 import "./styles/index.less";
-import Ghost from "./components/ghost";
+import Folllower from "./components/follower";
 
 var canvas: HTMLCanvasElement = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
@@ -24,7 +24,7 @@ function batch(gcClass, count, getArgs) {
 
 const boundaries: Point = [1080, 720];
 
-const pacmans = batch(Pacman, 3, () => ({
+const targets = batch(Pacman, 3, () => ({
   ctx,
   position: [random(canvas.width - 100), random(canvas.height - 100)],
   velocity: [1 - 2 * random(1), 1 - 2 * random(1)],
@@ -38,16 +38,16 @@ const components: Array<IComponent> = [
 
   //new Pacman({ ctx, position: [100, 100] }),
 
-  ...batch(Ghost, 30, () => ({
+  ...batch(Folllower, 30, () => ({
     ctx,
     position: [random(canvas.width - 100), random(canvas.height - 100)],
     velocity: [1 - 2 * random(1), 1 - 2 * random(1)],
     image: sample([ghost1, ghost2]),
     size: [75, 75],
     boundaries,
-    pacmans
+    targets
   })),
-  ...pacmans
+  ...targets
 ];
 
 new GameLoop({ components }).start();
