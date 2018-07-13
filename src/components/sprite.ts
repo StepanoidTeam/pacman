@@ -1,4 +1,4 @@
-import { Point, IDraw } from "./types";
+import { Point, IDraw, IPosition } from "./types";
 
 export type Props = {
   ctx: CanvasRenderingContext2D;
@@ -9,7 +9,7 @@ export type Props = {
   image: string;
 };
 
-export default class Sprite implements IDraw {
+export default class Sprite implements IDraw, IPosition {
   constructor(public props: Props) {
     this.props.img = new Image();
     this.props.img.src = this.props.image;
