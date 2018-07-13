@@ -1,5 +1,7 @@
+import { IComponent } from "./components/types";
+
 export default class GameLoop {
-  components: Array<any>;
+  components: Array<IComponent>;
 
   constructor({ components }) {
     this.components = components || [];

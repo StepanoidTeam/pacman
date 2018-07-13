@@ -5,11 +5,11 @@ import { distance, normalize, add, sub } from "./vectors";
 import Sprite, { Props as SpriteProps } from "./sprite";
 
 type Props = SpriteProps & {
-  velocity: Point;
   targets: Array<IPosition>;
 };
 
 export default class Folllower extends Sprite implements IComponent {
+  velocity: Point;
   closest: Point;
 
   constructor(public props: Props) {
@@ -17,7 +17,7 @@ export default class Folllower extends Sprite implements IComponent {
   }
 
   update() {
-    const { velocity, targets, position } = this.props;
+    const { targets, position } = this.props;
 
     const withDist = targets.map(p => ({
       position: p.props.position,
@@ -28,16 +28,13 @@ export default class Folllower extends Sprite implements IComponent {
       sortBy(targets.map(p => p.props.position), pos => distance(position, pos))
     );
 
-    this.props.velocity = normalize(sub(this.closest, position));
+    this.velocity = normalize(sub(this.closest, position));
 
-    this.props.velocity = add(this.props.velocity, [
-      random(-2, 2),
-      random(-2, 2)
-    ]);
+    this.velocity = add(this.velocity, [random(-2, 2), random(-2, 2)]);
 
     // this.props.velocity = scalar(this.props.velocity, random(1, 2));
 
-    this.props.position = add(position, velocity);
+    this.props.position = add(position, this.velocity);
   }
 
   drawText(pt: Point, text: string) {
@@ -50,8 +47,6 @@ export default class Folllower extends Sprite implements IComponent {
 
   draw() {
     super.draw();
-
-    const { position, velocity } = this.props;
 
     //this.drawText(position, this.closest.toString());
 

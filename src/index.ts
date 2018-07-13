@@ -26,6 +26,10 @@ import { Point, IComponent } from "./components/types";
 import Folllower from "./components/follower";
 
 import "./styles/index.less";
+import Sprite from "./components/sprite";
+
+const boundaries: Point = [1080, 720];
+const tileSize: Point = [75, 75];
 
 var canvas: HTMLCanvasElement = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
@@ -34,33 +38,42 @@ function batch(gcClass, count, getArgs) {
   return new Array(count).fill(null).map(() => new gcClass(getArgs()));
 }
 
-const boundaries: Point = [1080, 720];
+function getRandomPos() {
+  return [
+    random(canvas.width - tileSize[0]),
+    random(canvas.height - tileSize[1])
+  ];
+}
 
-function getRandomPos() {}
+const walls = batch(Sprite, 20, () => ({
+  ctx,
+  position: getRandomPos(),
+  image: sample([wall]),
+  size: tileSize
+}));
 
 const targets = batch(Pacman, 5, () => ({
   ctx,
-  position: [random(canvas.width - 100), random(canvas.height - 100)],
+  position: getRandomPos(),
   velocity: [1 - 2 * random(1), 1 - 2 * random(1)],
   image: sample(targetImgs),
-  size: [75, 75],
+  size: tileSize,
   boundaries
+}));
+
+const followers = batch(Folllower, 30, () => ({
+  ctx,
+  position: getRandomPos(),
+  image: sample(followerImgs),
+  size: tileSize,
+  boundaries,
+  targets
 }));
 
 const components: Array<IComponent> = [
   new ClearScreen({ ctx, boundaries }),
-
-  //new Pacman({ ctx, position: [100, 100] }),
-
-  ...batch(Folllower, 30, () => ({
-    ctx,
-    position: [random(canvas.width - 100), random(canvas.height - 100)],
-    velocity: [1 - 2 * random(1), 1 - 2 * random(1)],
-    image: sample(followerImgs),
-    size: [75, 75],
-    boundaries,
-    targets
-  })),
+  ...walls,
+  ...followers,
   ...targets
 ];
 
