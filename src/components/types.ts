@@ -1,5 +1,11 @@
 export type Point = [number, number];
 
+export interface IPosition {
+  props: {
+    position: Point;
+  };
+}
+
 export interface IDraw {
   draw();
 }
