@@ -11,12 +11,10 @@ import berry1 from "./images/berries-1.png";
 import berry2 from "./images/berries-2.png";
 import berry3 from "./images/berries-3.png";
 
-import dot from "./images/dot-1.png";
-
-import wall from "./images/wall-1.png";
-
 const targetImgs = [cake, berry1, berry2, berry3];
 const followerImgs = [ghost1, ghost2, pacman];
+
+import { tileSize, boundaries } from "./components/config";
 
 import GameLoop from "./gameLoop";
 
@@ -24,12 +22,10 @@ import ClearScreen from "./components/clearScreen";
 import Pacman from "./components/pacman";
 import { Point, IComponent } from "./components/types";
 import Folllower from "./components/follower";
+import Level, { LevelType } from "./components/level";
 
 import "./styles/index.less";
 import Sprite from "./components/sprite";
-
-const boundaries: Point = [1080, 720];
-const tileSize: Point = [75, 75];
 
 var canvas: HTMLCanvasElement = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
@@ -45,12 +41,32 @@ function getRandomPos() {
   ];
 }
 
-const walls = batch(Sprite, 20, () => ({
-  ctx,
-  position: getRandomPos(),
-  image: sample([wall]),
-  size: tileSize
-}));
+const level = new Level({
+  data: [
+    [
+      LevelType.WALL,
+      LevelType.WALL,
+      LevelType.WALL,
+      LevelType.WALL,
+      LevelType.WALL
+    ],
+    [
+      LevelType.WALL,
+      LevelType.DOT,
+      LevelType.DOT,
+      LevelType.DOT,
+      LevelType.WALL
+    ],
+    [
+      LevelType.WALL,
+      LevelType.DOT,
+      LevelType.WALL,
+      LevelType.DOT,
+      LevelType.WALL
+    ]
+  ],
+  ctx
+});
 
 const targets = batch(Pacman, 5, () => ({
   ctx,
@@ -72,7 +88,7 @@ const followers = batch(Folllower, 30, () => ({
 
 const components: Array<IComponent> = [
   new ClearScreen({ ctx, boundaries }),
-  ...walls,
+  level,
   ...followers,
   ...targets
 ];
