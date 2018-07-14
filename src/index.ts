@@ -25,7 +25,6 @@ import Folllower from "./components/follower";
 import Level, { LevelType } from "./components/level";
 
 import "./styles/index.less";
-import Sprite from "./components/sprite";
 
 var canvas: HTMLCanvasElement = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
@@ -43,13 +42,7 @@ function getRandomPos() {
 
 const level = new Level({
   data: [
-    [
-      LevelType.WALL,
-      LevelType.WALL,
-      LevelType.WALL,
-      LevelType.WALL,
-      LevelType.WALL
-    ],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [
       LevelType.WALL,
       LevelType.DOT,
