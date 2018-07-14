@@ -35,7 +35,7 @@ export default class Level implements IComponent {
         row.map((cell, colIndex) => {
           const position: Point = [
             tileSize[0] * colIndex,
-            tileSize[0] * rowIndex
+            tileSize[1] * rowIndex
           ];
           return new Sprite({
             ctx,
