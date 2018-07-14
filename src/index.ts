@@ -26,9 +26,10 @@ import Level, { LevelType } from "./components/level";
 
 import "./styles/index.less";
 
-var canvas: HTMLCanvasElement = document.querySelector("#canvas");
-var ctx = canvas.getContext("2d");
+const canvas: HTMLCanvasElement = document.querySelector("#canvas");
+const ctx = canvas.getContext("2d");
 
+//dev
 function batch(gcClass, count, getArgs) {
   return new Array(count).fill(null).map(() => new gcClass(getArgs()));
 }
