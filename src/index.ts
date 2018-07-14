@@ -25,6 +25,7 @@ import Folllower from "./components/follower";
 import Level, { LevelType } from "./components/level";
 
 import "./styles/index.less";
+import { scalar, sub } from "./components/vectors";
 
 const canvas: HTMLCanvasElement = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
@@ -60,6 +61,16 @@ const level = new Level({
     ]
   ],
   ctx
+});
+
+canvas.addEventListener("click", event => {
+  const { offsetX, offsetY } = event;
+
+  console.log(event);
+
+  let position = sub([offsetX, offsetY], scalar(tileSize, 1 / 2));
+
+  level.addTile(position, LevelType.WALL);
 });
 
 const targets = batch(Pacman, 5, () => ({

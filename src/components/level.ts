@@ -32,20 +32,28 @@ export default class Level implements IComponent {
 
     this.sprites = [].concat(
       ...data.map((row, rowIndex) =>
-        row.map((cell, colIndex) => {
+        row.map((cellType, colIndex) => {
           const position: Point = [
             tileSize[0] * colIndex,
             tileSize[1] * rowIndex
           ];
-          return new Sprite({
-            ctx,
-            position,
-            size: tileSize,
-            image: mapping[cell]
-          });
+          return this.createTile(position, cellType);
         })
       )
     );
+  }
+
+  addTile(position: Point, cellType: LevelType): void {
+    this.sprites.push(this.createTile(position, cellType));
+  }
+
+  createTile(position: Point, cellType: LevelType): Sprite {
+    return new Sprite({
+      ctx: this.props.ctx,
+      position,
+      size: tileSize,
+      image: mapping[cellType]
+    });
   }
 
   draw() {
