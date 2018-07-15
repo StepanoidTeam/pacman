@@ -22,3 +22,7 @@ export function normalize(pt: Point): Point {
 
   return scalar(pt, 1 / length);
 }
+
+export function floor(pt: Point): Point {
+  return pt.map(x => Math.floor(x)) as Point;
+}
