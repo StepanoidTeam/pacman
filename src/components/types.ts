@@ -1,5 +1,7 @@
 export type Point = [number, number];
 
+export type Matrix = [Point, Point];
+
 export interface IPosition {
   props: {
     position: Point;
