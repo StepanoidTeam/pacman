@@ -11,11 +11,9 @@ export default class ClearScreen implements IComponent {
   update(timestamp: number) {}
 
   draw() {
-    this.props.ctx.clearRect(
-      0,
-      0,
-      this.props.boundaries[0],
-      this.props.boundaries[1]
-    );
+    const { ctx } = this.props;
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, this.props.boundaries[0], this.props.boundaries[1]);
   }
 }
