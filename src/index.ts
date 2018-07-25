@@ -11,7 +11,11 @@ import berry1 from "./images/berries-1.png";
 import berry2 from "./images/berries-2.png";
 import berry3 from "./images/berries-3.png";
 
-const targetImgs = [cake, berry1, berry2, berry3];
+import dot from "./images/dot-1.png";
+import wall from "./images/wall-1.png";
+
+const berries = [berry1, berry2, berry3];
+const targetImgs = [cake];
 const followerImgs = [ghost1, ghost2, pacman];
 
 import { tileSize, boundaries } from "./components/config";
@@ -26,6 +30,7 @@ import Level, { LevelType } from "./components/level";
 
 import "./styles/index.less";
 import { scalar, sub, floor } from "./components/vectors";
+import Rotator from "./components/rotator";
 
 const canvas: HTMLCanvasElement = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
@@ -35,7 +40,7 @@ function batch(gcClass, count, getArgs) {
   return new Array(count).fill(null).map(() => new gcClass(getArgs()));
 }
 
-function getRandomPos() {
+function getRandomPos(): Point {
   return [
     random(canvas.width - tileSize[0]),
     random(canvas.height - tileSize[1])
@@ -94,11 +99,21 @@ const followers = batch(Folllower, 30, () => ({
   targets
 }));
 
+const rotators = batch(Rotator, 20, () => ({
+  ctx,
+  position: [random(200, 500), random(200, 500)],
+  image: sample(berries),
+  size: tileSize,
+  center: [350, 350],
+  angle: 1 // random(1 / 4, 1 / 2, true)
+}));
+
 const components: Array<IComponent> = [
   new ClearScreen({ ctx, boundaries }),
   level,
   ...followers,
-  ...targets
+  ...targets,
+  ...rotators
 ];
 
 new GameLoop({ components }).start();
