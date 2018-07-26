@@ -1,9 +1,9 @@
-import { Point, IPosition, IComponent } from "./types";
-import { tileSize } from "./config";
+import { Point, IPosition, IComponent, Draw } from "./types";
+import { tileSize, ctx } from "./config";
 import { getRadians } from "./vectors";
+import ImageLib from "../images/index";
 
 export type Props = {
-  ctx: CanvasRenderingContext2D;
   position: Point;
   size: Point;
   image: string;
@@ -11,17 +11,17 @@ export type Props = {
   rotate?: number;
 };
 
-export default class Sprite implements IComponent, IPosition {
+export default class Sprite extends Draw implements IComponent, IPosition {
+  ctx: CanvasRenderingContext2D = ctx;
   img: HTMLImageElement = new Image();
 
   constructor(public props: Props) {
-    this.img.src = this.props.image;
-    this.props.rotate = 0;
-    this.props.scale = 1;
+    super();
+    this.img.src = ImageLib.get(this.props.image);
   }
 
-  drawImage() {
-    const { ctx, scale, rotate, position, size } = this.props;
+  draw() {
+    const { scale = 1, rotate = 0, position, size } = this.props;
 
     ctx.setTransform(
       scale,
@@ -35,15 +35,6 @@ export default class Sprite implements IComponent, IPosition {
     //ctx.drawImage(this.img, -this.img.width / 2, -this.img.height / 2);
     //ctx.fillRect(0, 0, size[0], size[1]);
     ctx.drawImage(this.img, -size[0] / 2, -size[1] / 2, size[0], size[1]);
-  }
-
-  draw() {
-    const { ctx, position, size = tileSize } = this.props;
-
-    //debug
-
-    this.drawImage();
-    //this.drawImage(this.img, position[0], position[1], size[0], size[1]);
   }
   update(timestamp: number) {}
 }
