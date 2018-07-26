@@ -2,23 +2,11 @@
 
 import { random, sample } from "lodash";
 
-import pacman from "./images/Pacman.png";
-import ghost1 from "./images/ghost-1.png";
-import ghost2 from "./images/ghost-2.png";
+import { tileSize, boundaries, canvas } from "./components/config";
 
-import cake from "./images/cake.png";
-import berry1 from "./images/berries-1.png";
-import berry2 from "./images/berries-2.png";
-import berry3 from "./images/berries-3.png";
-
-import dot from "./images/dot-1.png";
-import wall from "./images/wall-1.png";
-
-const berries = [berry1, berry2, berry3];
-const targetImgs = [cake];
-const followerImgs = [ghost1, ghost2, pacman];
-
-import { tileSize, boundaries } from "./components/config";
+const berries = ["berry1", "berry2", "berry3"];
+const targetImgs = ["cake"];
+const followerImgs = ["ghost1", "ghost2", "pacman"];
 
 import GameLoop from "./gameLoop";
 
@@ -26,14 +14,11 @@ import ClearScreen from "./components/clearScreen";
 import Pacman from "./components/pacman";
 import { Point, IComponent } from "./components/types";
 import Folllower from "./components/follower";
-import Level, { LevelType } from "./components/level";
+import Level from "./components/level";
 
 import "./styles/index.less";
 import { scalar, sub, floor } from "./components/vectors";
 import Rotator from "./components/rotator";
-
-const canvas: HTMLCanvasElement = document.querySelector("#canvas");
-const ctx = canvas.getContext("2d");
 
 //dev
 function batch(gcClass, count, getArgs) {
@@ -42,30 +27,17 @@ function batch(gcClass, count, getArgs) {
 
 function getRandomPos(): Point {
   return [
-    random(canvas.width - tileSize[0]),
-    random(canvas.height - tileSize[1])
+    random(boundaries[0] - tileSize[0]),
+    random(boundaries[1] - tileSize[1])
   ];
 }
 
+import level1 from "./levels/level-1.json";
+import Sprite from "./components/sprite";
+import { saveData } from "./saveData";
+
 const level = new Level({
-  data: [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [
-      LevelType.WALL,
-      LevelType.DOT,
-      LevelType.DOT,
-      LevelType.DOT,
-      LevelType.WALL
-    ],
-    [
-      LevelType.WALL,
-      LevelType.DOT,
-      LevelType.WALL,
-      LevelType.DOT,
-      LevelType.WALL
-    ]
-  ],
-  ctx
+  data: level1
 });
 
 canvas.addEventListener("click", event => {
@@ -78,11 +50,24 @@ canvas.addEventListener("click", event => {
 
   let position = alignToGrid(offset, tileSize[0]);
 
-  level.addTile(position, LevelType.WALL);
+  level.addItem({
+    type: "Bouncer",
+    props: {
+      position: position,
+      size: tileSize,
+      image: "cake"
+    }
+  });
+});
+
+document.body.addEventListener("keypress", event => {
+  if (event.key === "s") {
+    const data = level.save();
+    saveData(data, "level-1.json");
+  }
 });
 
 const targets = batch(Pacman, 5, () => ({
-  ctx,
   position: getRandomPos(),
   velocity: [1 - 2 * random(1), 1 - 2 * random(1)],
   image: sample(targetImgs),
@@ -91,7 +76,6 @@ const targets = batch(Pacman, 5, () => ({
 }));
 
 const followers = batch(Folllower, 30, () => ({
-  ctx,
   position: getRandomPos(),
   image: sample(followerImgs),
   size: tileSize,
@@ -100,7 +84,6 @@ const followers = batch(Folllower, 30, () => ({
 }));
 
 const rotators = batch(Rotator, 20, () => ({
-  ctx,
   position: [random(200, 500), random(200, 500)],
   image: sample(berries),
   size: tileSize,
@@ -109,7 +92,7 @@ const rotators = batch(Rotator, 20, () => ({
 }));
 
 const components: Array<IComponent> = [
-  new ClearScreen({ ctx, boundaries }),
+  new ClearScreen({ boundaries }),
   level,
   ...followers,
   ...targets,
