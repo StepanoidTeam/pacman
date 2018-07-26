@@ -1,4 +1,4 @@
-import { Point, IDraw, IPosition, IUpdate } from "./types";
+import { Point, IPosition, IComponent } from "./types";
 import { tileSize } from "./config";
 import { getRadians } from "./vectors";
 
@@ -11,7 +11,7 @@ export type Props = {
   rotate?: number;
 };
 
-export default class Sprite implements IDraw, IUpdate, IPosition {
+export default class Sprite implements IComponent, IPosition {
   img: HTMLImageElement = new Image();
 
   constructor(public props: Props) {

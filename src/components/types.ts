@@ -16,4 +16,6 @@ export interface IUpdate {
   update(timestamp: number);
 }
 
-export interface IComponent extends IDraw, IUpdate {}
+export interface IComponent extends IDraw, IUpdate {
+  props: object;
+}
