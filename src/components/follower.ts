@@ -38,11 +38,9 @@ export default class Folllower extends Sprite implements IComponent {
   }
 
   drawText(pt: Point, text: string) {
-    const { ctx } = this.props;
-
-    ctx.fillStyle = "black";
-    ctx.font = "12px serif";
-    ctx.fillText(text, pt[0], pt[1]);
+    this.ctx.fillStyle = "black";
+    this.ctx.font = "12px serif";
+    this.ctx.fillText(text, pt[0], pt[1]);
   }
 
   draw() {
