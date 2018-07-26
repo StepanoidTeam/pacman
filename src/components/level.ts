@@ -1,64 +1,53 @@
-import { IComponent, Point } from "./types";
-import { tileSize } from "./config";
+import { IComponent } from "./types";
+import dynamicClass from "./dynamicClass";
 
-import Sprite from "./sprite";
-
-import dot from "../images/dot-1.png";
-import wall from "../images/wall-1.png";
-
-export enum LevelType {
-  WALL,
-  DOT
-  //   FRUIT,
-  //   PACMAN,
-  //   GHOST
-}
-
-const mapping = {
-  [LevelType.WALL]: wall,
-  [LevelType.DOT]: dot
-};
+export type LevelItem = { type: string; props: any };
+export type LevelData = Array<LevelItem>;
 
 export type Props = {
-  data: Array<Array<LevelType>>;
-  ctx: CanvasRenderingContext2D;
+  data: LevelData;
 };
 
 export default class Level implements IComponent {
-  sprites: Array<Sprite> = [];
+  name = this.name;
+  components: Array<IComponent> = [];
 
   constructor(public props: Props) {
-    const { data, ctx } = this.props;
+    const { data } = this.props;
+    this.components = [];
 
-    this.sprites = [].concat(
-      ...data.map((row, rowIndex) =>
-        row.map((cellType, colIndex) => {
-          const position: Point = [
-            tileSize[0] * colIndex,
-            tileSize[1] * rowIndex
-          ];
-          return this.createTile(position, cellType);
-        })
-      )
-    );
+    this.load(data);
   }
 
-  addTile(position: Point, cellType: LevelType): void {
-    this.sprites.push(this.createTile(position, cellType));
+  load(data: LevelData) {
+    data.forEach(this.addItem, this);
   }
 
-  createTile(position: Point, cellType: LevelType): Sprite {
-    return new Sprite({
-      ctx: this.props.ctx,
-      position,
-      size: tileSize,
-      image: mapping[cellType]
-    });
+  addItem(item: LevelItem) {
+    const $class = dynamicClass(item.type);
+    const component = new $class(item.props);
+
+    this.components.push(component);
+  }
+
+  save() {
+    function compMapper(c: IComponent) {
+      return {
+        type: c.constructor.name,
+        props: c.props
+      } as LevelItem;
+    }
+
+    const data = this.components.map(compMapper);
+
+    return data;
   }
 
   draw() {
-    this.sprites.forEach(c => c.draw());
+    this.components.forEach(c => c.draw());
   }
 
-  update(timestamp: number) {}
+  update(timestamp: number) {
+    this.components.forEach(c => c.update(timestamp));
+  }
 }
