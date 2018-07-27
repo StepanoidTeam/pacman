@@ -20,6 +20,7 @@ export default class Level implements IComponent {
   }
 
   load(data: LevelData) {
+    this.components = [];
     data.forEach(this.addItem, this);
   }
 
