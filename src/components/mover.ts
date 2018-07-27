@@ -6,12 +6,14 @@ type Props = SpriteProps & {
   boundaries: Point;
 };
 
-export default class Pacman extends Sprite implements IComponent {
+export default class Mover extends Sprite implements IComponent {
   constructor(public props: Props) {
     super(props);
   }
 
-  update() {
+  update(timestamp) {
+    super.update(timestamp);
+
     const { boundaries, size, velocity } = this.props;
 
     this.props.position = this.props.position.map((x, i) => {

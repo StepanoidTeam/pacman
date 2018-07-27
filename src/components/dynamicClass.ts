@@ -2,7 +2,7 @@ import Sprite from "./sprite";
 import Folllower from "./follower";
 import ClearScreen from "./clearScreen";
 import Rotator from "./rotator";
-import Pacman from "./pacman";
+import Mover from "./mover";
 import Bouncer from "./bouncer";
 
 const classes = {
@@ -10,7 +10,7 @@ const classes = {
   Folllower,
   ClearScreen,
   Rotator,
-  Pacman,
+  Mover,
   Bouncer
 };
 
