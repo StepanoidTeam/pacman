@@ -33,38 +33,15 @@ function getRandomPos(): Point {
 }
 
 import level1 from "./levels/level-1.json";
-import Sprite from "./components/sprite";
+import level2 from "./levels/level-2.json";
+import level3 from "./levels/level-3.json";
+
 import { saveData } from "./saveData";
 
+const levels = [level1, level2, level3];
+
 const level = new Level({
-  data: level1
-});
-
-canvas.addEventListener("click", event => {
-  const { offsetX, offsetY } = event;
-
-  const offset: Point = [offsetX, offsetY];
-
-  const alignToGrid = (position: Point, cellSize: number) =>
-    scalar(floor(scalar(position, 1 / cellSize)), cellSize);
-
-  let position = alignToGrid(offset, tileSize[0]);
-
-  level.addItem({
-    type: "Bouncer",
-    props: {
-      position: position,
-      size: tileSize,
-      image: "cake"
-    }
-  });
-});
-
-document.body.addEventListener("keypress", event => {
-  if (event.key === "s") {
-    const data = level.save();
-    saveData(data, "level-1.json");
-  }
+  data: levels[0]
 });
 
 const targets = batch(Pacman, 5, () => ({
@@ -100,3 +77,109 @@ const components: Array<IComponent> = [
 ];
 
 new GameLoop({ components }).start();
+
+//controls
+let drawItems = [
+  position => ({
+    type: "Bouncer",
+    props: {
+      position: position,
+      size: tileSize,
+      image: "cake"
+    }
+  }),
+  position => ({
+    type: "Bouncer",
+    props: {
+      position: position,
+      size: tileSize,
+      image: "dot"
+    }
+  }),
+  position => ({
+    type: "Sprite",
+    props: {
+      position: position,
+      size: tileSize,
+      image: "wall"
+    }
+  })
+];
+
+canvas.addEventListener("click", event => {
+  const { offsetX, offsetY } = event;
+
+  const offset: Point = [offsetX, offsetY];
+
+  const alignToGrid = (position: Point, cellSize: number) =>
+    scalar(floor(scalar(position, 1 / cellSize)), cellSize);
+
+  let position = alignToGrid(offset, tileSize[0]);
+
+  level.addItem(drawItems[0](position));
+});
+
+document.body.addEventListener("keypress", event => {
+  const keyBindings = {
+    s: () => {
+      const data = level.save();
+      saveData(data, "level-1.json");
+    },
+    n: () => {
+      const next = levels.shift();
+      levels.push(next);
+      level.load(next);
+    }
+  };
+
+  keyBindings[event.key]();
+});
+
+const controls = document.body.querySelector(".controls");
+
+const ctrls = [
+  {
+    name: "save level",
+    action: () => {
+      const data = level.save();
+      saveData(data, "level-1.json");
+    }
+  },
+  {
+    name: "next level",
+    action: () => {
+      const next = levels.shift();
+      levels.push(next);
+      level.load(next);
+    }
+  },
+  {
+    name: "prev tool",
+    action: () => {
+      const prev = drawItems.pop();
+      drawItems.unshift(prev);
+    }
+  },
+  {
+    name: "next tool",
+    action: () => {
+      const next = drawItems.shift();
+      drawItems.push(next);
+    }
+  },
+  {
+    name: "clear",
+    action: () => {
+      level.load([]);
+    }
+  }
+];
+
+ctrls
+  .map(ctrl => {
+    const elem = document.createElement("button");
+    elem.innerText = ctrl.name;
+    elem.addEventListener("click", ctrl.action);
+    return elem;
+  })
+  .forEach(elem => controls.appendChild(elem));
