@@ -8,8 +8,11 @@ export const saveData = (function() {
       url = window.URL.createObjectURL(blob);
     a.href = url;
     a.download = fileName;
+
     a.click();
     window.URL.revokeObjectURL(url);
     //todo: remove a from dom?
+
+    console.log(json);
   };
 })();
