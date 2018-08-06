@@ -1,5 +1,5 @@
 import { Point, IPosition, IComponent, Draw } from "./types";
-import { tileSize, ctx } from "./config";
+import { ctx } from "./config";
 import { getRadians } from "./vectors";
 import ImageLib from "../images/index";
 
@@ -32,8 +32,6 @@ export default class Sprite extends Draw implements IComponent, IPosition {
       position[1] + size[1] / 2
     );
     ctx.rotate(getRadians(rotate));
-    //ctx.drawImage(this.img, -this.img.width / 2, -this.img.height / 2);
-    //ctx.fillRect(0, 0, size[0], size[1]);
     ctx.drawImage(this.img, -size[0] / 2, -size[1] / 2, size[0], size[1]);
   }
   update(timestamp: number) {}
