@@ -1,54 +1,61 @@
 import { IComponent } from "./types";
 import dynamicClass from "./dynamicClass";
+import GameObject from "./GameObject";
 
-export type LevelItem = { type: string; props: any };
+export type LevelItem = {
+  classNames: Array<string>;
+  props: any;
+};
 export type LevelData = Array<LevelItem>;
 
 export type Props = {
   data: LevelData;
 };
 
-export default class Level implements IComponent {
-  name = this.name;
-  components: Array<IComponent> = [];
+export default class Level extends GameObject implements IComponent {
+  gameObjects: Array<GameObject> = [];
 
   constructor(public props: Props) {
+    super(props);
     const { data } = this.props;
-    this.components = [];
 
     this.load(data);
   }
 
   load(data: LevelData) {
-    this.components = [];
-    data.forEach(this.addItem, this);
+    this.gameObjects = [];
+
+    data
+      .map((item: LevelItem) => {
+        let types = item.classNames.map(dynamicClass);
+
+        return new GameObject(item.props, ...types);
+      })
+      .forEach(this.addItem, this);
   }
 
-  addItem(item: LevelItem) {
-    const $class = dynamicClass(item.type);
-    const component = new $class(item.props);
-
-    this.components.push(component);
+  addItem(go: GameObject) {
+    this.gameObjects.push(go);
   }
 
   save() {
-    function compMapper(c: IComponent) {
+    function goMapper(c: GameObject) {
       return {
-        type: c.constructor.name,
+        classNames: c.classNames,
         props: c.props
       } as LevelItem;
     }
 
-    const data = this.components.map(compMapper);
+    const data = this.gameObjects.map(goMapper);
 
     return data;
   }
 
   draw() {
-    this.components.forEach(c => c.draw());
+    this.gameObjects.forEach(c => c.draw());
   }
 
   update(timestamp: number) {
-    this.components.forEach(c => c.update(timestamp));
+    this.gameObjects.forEach(c => c.update(timestamp));
   }
 }
