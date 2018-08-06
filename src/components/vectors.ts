@@ -45,3 +45,9 @@ export function getRotationMtx(angle): Matrix {
 
   return [[cos(rads), -sin(rads)], [sin(rads), cos(rads)]];
 }
+
+function rotate(point: Point, angle: number): Point {
+  const rotMtx = getRotationMtx(angle);
+
+  return mtxProduct(point, rotMtx);
+}
