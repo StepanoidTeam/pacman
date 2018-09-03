@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "npx webpack",
-    "server": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",
